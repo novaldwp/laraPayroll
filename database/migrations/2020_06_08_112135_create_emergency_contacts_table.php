@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAccountsTable extends Migration
+class CreateEmergencyContactsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateAccountsTable extends Migration
      */
     public function up()
     {
-        Schema::create('account', function (Blueprint $table) {
+        Schema::create('emergency_contact', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->integer('number_account');
-            $table->string('branch');
-            $table->enum('status', [1, 0]);
-            $table->bigInteger('bank_id')->unsigned();
+            $table->string('relation');
+            $table->string('phone');
+            $table->longText('address');
             $table->bigInteger('employee_id')->unsigned();
             $table->timestamps();
         });
@@ -32,6 +31,6 @@ class CreateAccountsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('account');
+        Schema::dropIfExists('emergency_contact');
     }
 }

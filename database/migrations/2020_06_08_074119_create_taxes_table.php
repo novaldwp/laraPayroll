@@ -19,10 +19,8 @@ class CreateTaxesTable extends Migration
             $table->integer('value');
             $table->longText('description');
             $table->enum('status', [1, 0]);
-            $table->integer('marital_id');
+            $table->bigInteger('marital_id')->unsigned();
             $table->timestamps();
-
-            $table->foreign('marital_id')->references('id')->on('marital')->onDelete('cascade');
         });
     }
 
