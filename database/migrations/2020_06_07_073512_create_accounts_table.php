@@ -18,7 +18,6 @@ class CreateAccountsTable extends Migration
             $table->string('name');
             $table->integer('number_account');
             $table->string('branch');
-            $table->enum('status', [1, 0]);
             $table->bigInteger('bank_id')->unsigned();
             $table->bigInteger('employee_id')->unsigned();
             $table->timestamps();

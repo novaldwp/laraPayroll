@@ -18,7 +18,6 @@ class CreateTaxesTable extends Migration
             $table->string('name');
             $table->integer('value');
             $table->longText('description');
-            $table->enum('status', [1, 0]);
             $table->bigInteger('marital_id')->unsigned();
             $table->timestamps();
         });

@@ -17,7 +17,6 @@ class CreateBanksTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->integer('bank_code');
-            $table->enum('status', [1, 0]);
             $table->timestamps();
         });
     }

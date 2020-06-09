@@ -41,7 +41,6 @@ class CreateEmployeesTable extends Migration
             $table->date('join_date');
             $table->date('leave_date')->nullable();
 
-            $table->enum('status', [1, 0]);
             $table->timestamps();
         });
     }

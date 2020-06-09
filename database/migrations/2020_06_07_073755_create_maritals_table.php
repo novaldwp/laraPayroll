@@ -16,7 +16,6 @@ class CreateMaritalsTable extends Migration
         Schema::create('marital', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
-            $table->enum('status', [1, 0]);
             $table->timestamps();
         });
     }

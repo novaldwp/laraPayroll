@@ -17,7 +17,6 @@ class CreateDesignationsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->bigInteger('department_id')->unsigned();
-            $table->enum('status', [1, 0]);
             $table->timestamps();
         });
     }

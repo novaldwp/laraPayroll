@@ -17,7 +17,6 @@ class CreateDepartmentsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('code');
-            $table->enum('status', [1, 0]);
             $table->timestamps();
         });
     }
