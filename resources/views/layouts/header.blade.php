@@ -8,10 +8,6 @@
             @yield('title')
         </title>
 
-        <!-- METHOD -->
-        {{ method_field('post') }}
-        <!-- CSRF TOKEN -->
-        <meta name="csrf-token" content="{{ csrf_token() }}">
 		<meta name="description" content="overview &amp; stats" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 

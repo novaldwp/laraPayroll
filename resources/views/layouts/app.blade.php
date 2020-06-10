@@ -31,6 +31,7 @@
 						<div class="page-header">
                             @yield('content-title')     <!-- load section content-title-->
                         </div><!-- /.page-header -->
+                            @include('layouts.alert')   <!-- load alert notification message -->
 
                             @yield('content-body')      <!-- load section content-body-->
 					</div><!-- /.page-content -->
