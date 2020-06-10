@@ -3,6 +3,7 @@
 namespace App\Model\Master;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Model\Master\Taxes;
 
 class Marital extends Model
 {
@@ -11,4 +12,8 @@ class Marital extends Model
         'name', 'status'
     ];
     public $incrementing = false;
+
+    public function taxes() {
+        return $this->hasMany(Taxes::class);
+    }
 }

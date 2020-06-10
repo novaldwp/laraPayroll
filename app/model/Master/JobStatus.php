@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class JobStatus extends Model
 {
-    protected $table = 'jobstatus';
+    protected $table = 'job_status';
     protected $fillable = [
         'name', 'status'
     ];

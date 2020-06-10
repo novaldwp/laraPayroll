@@ -3,6 +3,7 @@
 namespace App\Model\Master;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Model\Master\Department;
 
 class Designation extends Model
 {
@@ -11,4 +12,8 @@ class Designation extends Model
         'name', 'department_id', 'status'
     ];
     public $incrementing = false;
+
+    public function department() {
+        return $this->belongsTo(Department::class);
+    }
 }
