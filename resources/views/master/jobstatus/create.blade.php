@@ -23,13 +23,18 @@
                     <form id="form-validation" class="form-horizontal" method="POST" action="{{ route('job-status.store') }}">
                         @csrf
                         <br>
-                        <div class="form-group">
+                        <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                             <label class="col-sm-2 control-label no-padding-right">
                                 Nama Status Kerja <i class="light-red ace-icon fa fa-asterisk"></i>
                             </label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="name" name="name" placeholder="Nama Status Kerja" class="form-control" autocomplete="off" required/>
+                                <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Nama Status Kerja" class="form-control" autocomplete="off" required/>
+                                @if($errors->has('name'))
+                                    <em class="invalid-feedback red">
+                                        {{ $errors->first('name') }}
+                                    </em>
+                                @endif
                             </div>
                         </div>
 

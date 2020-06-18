@@ -20,25 +20,35 @@
         <div class="col-md-12 col-xs-12"><!-- PAGE CONTENT BEGINS -->
             <div class="row">
                 <div class="col-xs-12">
-                    <form id="form-validation" class="form-horizontal" method="POST" action="{{ URL('master/bank') }}">
+                    <form class="form-horizontal" method="POST" action="{{ URL('master/bank') }}">
                         @csrf
                         <br>
-                        <div class="form-group">
+                        <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                             <label class="col-sm-2 control-label no-padding-right">
                                 Nama Bank <i class="light-red ace-icon fa fa-asterisk"></i>
                             </label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="name" name="name" placeholder="Nama Bank" class="form-control" autocomplete="off" required/>
+                                <input type="text" id="name" name="name" placeholder="Nama Bank" value="{{ old('name') }}" class="form-control" autocomplete="off" required />
+                                @if($errors->has('name'))
+                                    <em class="invalid-feedback red">
+                                        {{ $errors->first('name') }}
+                                    </em>
+                                @endif
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group {{ $errors->has('bank_code') ? 'has-error' : '' }}">
                             <label class="col-sm-2 control-label no-padding-right">
                                 Kode Bank <i class="light-red ace-icon fa fa-asterisk"></i>
                             </label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="name" name="bank_code" placeholder="Kode Bank" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" autocomplete="off" required/>
+                                <input type="text" id="bank_code" name="bank_code" placeholder="Kode Bank" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" autocomplete="off" />
+                                @if($errors->has('bank_code'))
+                                    <em class="invalid-feedback red">
+                                        {{ $errors->first('bank_code') }}
+                                    </em>
+                                @endif
                             </div>
                         </div>
 

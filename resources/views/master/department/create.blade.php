@@ -23,22 +23,32 @@
                     <form id="form-validation" class="form-horizontal" method="POST" action="{{ route('department.store') }}">
                         @csrf
                         <br>
-                        <div class="form-group">
+                        <div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
                             <label class="col-sm-2 control-label no-padding-right">
                                 Nama Divisi <i class="light-red ace-icon fa fa-asterisk"></i>
                             </label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="name" name="name" placeholder="Nama Divisi" class="form-control" autocomplete="off" required/>
+                                <input type="text" id="name" name="name" value="{{ old('name') }}" placeholder="Nama Divisi" class="form-control" autocomplete="off" required/>
+                                @if($errors->has('name'))
+                                    <em class="invalid-feedback red">
+                                        {{ $errors->first('name') }}
+                                    </em>
+                                @endif
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group {{ $errors->has('code') ? 'has-error' : '' }}">
                             <label class="col-sm-2 control-label no-padding-right">
                                 Kode Divisi <i class="light-red ace-icon fa fa-asterisk"></i>
                             </label>
 
                             <div class="col-sm-9">
-                                <input type="text" id="name" name="code" placeholder="Kode Divisi" class="form-control" autocomplete="off" required/>
+                                <input type="text" id="code" name="code" value="{{ old('code') }}" placeholder="Kode Divisi" class="form-control" autocomplete="off" required/>
+                                @if($errors->has('code'))
+                                    <em class="invalid-feedback red">
+                                        {{ $errors->first('code') }}
+                                    </em>
+                                @endif
                             </div>
                         </div>
 

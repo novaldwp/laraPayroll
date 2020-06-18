@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title')
-    Masster
+    Master
 @endsection
 
 @section('breadcrumb')
@@ -23,7 +23,7 @@
                     <a href="{{ URL('master/bank/create') }}"><span class="btn btn-primary btn-sm"><i class="fa fa-plus"></i> Tambah Baru</span></a>
                     <br><br>
                     <table id="simple-table" class="table  table-bordered table-hover">
-                       
+
                         <thead>
                             <tr>
                                 <th class="detail-col">No.</th>
@@ -45,7 +45,7 @@
                                         <form action="{{ route('bank.destroy', $row->id) }}" method="post">
                                             @csrf
                                             {{ method_field('DELETE') }}
-                                            <a href="{{ route('bank.edit', $row->id) }}" class="btn btn-xs btn-info"> 
+                                            <a href="{{ route('bank.edit', $row->id) }}" class="btn btn-xs btn-info">
                                                 <i class="ace-icon fa fa-pencil bigger-120"></i>
                                             </a>
                                             <button class="btn btn-xs btn-danger" onClick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
