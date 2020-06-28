@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Master;
 
+use App\Repositories\Master\interfaces\TaxesRepositoryInterface;
 use App\Http\Requests\TaxesRequest;
 use App\Http\Controllers\Controller;
 use App\Model\Master\Taxes;
@@ -10,39 +11,43 @@ use Session;
 
 class TaxesController extends Controller
 {
-    public function __construct() {
+    private $taxesRepository;
+
+    public function __construct(TaxesRepositoryInterface $taxesRepository) {
         //set navbar session
         Session::forget('nav_active');
         Session::forget('sub_active');
 
         Session::put('nav_active', 'master');
         Session::put('sub_active', 'taxes');
+
+        $this->taxesRepository = $taxesRepository;
     }
 
     public function index() {
         $title      = "Daftar Data Perpajakan";
-        $taxes      = Taxes::orderBy('id', 'ASC')->paginate(10);
+        $taxes      = $this->taxesRepository->paginate(5);
 
         return view('master.taxes.index', compact(['title', 'taxes']));
     }
 
     public function create() {
         $title      = "Tambah Data Perpajakan";
-        $marital    = Marital::all();
+        $marital    = $this->taxesRepository->getMarital();
 
         return view('master.taxes.create', compact(['title', 'marital']));
     }
 
     public function store(TaxesRequest $request) {
-        $taxes      = Taxes::create($request->all());
+        $taxes      = $this->taxesRepository->create($request);
 
         return redirect('master/taxes')->with(['success' => 'Data berhasil ditambahkan!']);
     }
 
     public function edit($id) {
         $title      = "Ubah Data Perpajakan";
-        $taxes      = Taxes::with('marital')->findOrFail($id);
-        $marital    = Marital::all();
+        $taxes      = $this->taxesRepository->findById($id);
+        $marital    = $this->taxesRepository->getMarital();
 
         if($taxes) {
             return view('master.taxes.edit', compact(['title', 'taxes', 'marital']));
@@ -52,18 +57,21 @@ class TaxesController extends Controller
         }
     }
 
-    public function update(TaxesRequest $request, Taxes $taxes) {
-        $taxes->update();
+    public function update(TaxesRequest $request, $id) {
+        $taxes = $this->taxesRepository->update($request, $id);
 
-        return redirect('master/taxes')->with(['success' => 'Data berhasil diubah!']);
+        if($taxes) {
+            return redirect('master/taxes')->with(['success' => 'Data berhasil diubah!']);
+        }
+        else {
+            return redirect('master/taxes')->with(['success' => 'Data gagal diubah!']);
+        }
     }
 
     public function destroy($id) {
-        $taxes      = Taxes::findOrFail($id);
+        $taxes      = $this->taxesRepository->delete($id);
 
         if($taxes) {
-            $taxes->delete();
-
             return redirect('master/taxes')->with(['success' => 'Data berhasil dihapus!']);
         }
         else {

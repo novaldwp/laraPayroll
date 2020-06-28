@@ -4,19 +4,27 @@ namespace App\Http\Controllers\Master;
 
 use App\Http\Requests\BankRequest;
 use App\Http\Controllers\Controller;
-use Session;
 use App\Model\Master\Bank;
+use Session;
+use App\Repositories\Master\Interfaces\BankRepositoryInterface;
 
 class BankController extends Controller
 {
-    public function __construct() {
+    private $bankRepository;
+
+    public function __construct(BankRepositoryInterface $bankRepository) {
         // set session for navbar
+        Session::forget('nav_active');
+        Session::forget('sub_active');
+
         Session::put('nav_active', 'master');
         Session::put('sub_active', 'bank');
+
+        $this->bankRepository = $bankRepository;
     }
 
     public function index() {
-        $bank = Bank::orderBy('id', 'DESC')->paginate(5);
+        $bank = $this->bankRepository->paginate(5);
 
         return view('master.bank.index', compact('bank'));
     }
@@ -28,30 +36,28 @@ class BankController extends Controller
     }
 
     public function store(BankRequest $request) {
-        $bank = Bank::create($request->all());
+        $bank = $this->bankRepository->create($request);
 
         return redirect('master/bank')->with(['success' => 'Data berhasil ditambahkan!']);
     }
 
     public function edit($id) {
         $title  = "Ubah Data Bank";
-        $bank   = Bank::findOrFail($id);
+        $bank   = $this->bankRepository->findById($id);
 
         return view('master.bank.edit', compact(['bank', 'title']));
     }
 
-    public function update(BankRequest $request, Bank $bank) {
-        $bank->update($request->all());
+    public function update(BankRequest $request, $id) {
+        $bank = $this->bankRepository->update($request, $id);
 
         return redirect('master/bank')->with(['success' => 'Data berhasil diubah!']);
     }
 
     public function destroy($id) {
-        $bank = Bank::findOrFail($id);
+        $bank = $this->bankRepository->delete($id);
 
         if($bank) {
-            $bank->delete();
-
             return redirect('master/bank')->with(['success' => 'Data berhasil dihapus!']);
         }
         else {

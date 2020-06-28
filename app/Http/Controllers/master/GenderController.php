@@ -6,21 +6,26 @@ use App\Http\Requests\GenderRequest;
 use App\Http\Controllers\Controller;
 use App\Model\Master\Gender;
 use Session;
+use App\Repositories\Master\Interfaces\GenderRepositoryInterface;
 
 class GenderController extends Controller
 {
-    public function __construct() {
+    private $genderRepository;
+
+    public function __construct(GenderRepositoryInterface $genderRepository) {
         //set navbar session
         Session::forget('nav_active');
         Session::forget('sub_active');
 
         Session::put('nav_active', 'master');
         Session::put('sub_active', 'gender');
+
+        $this->genderRepository = $genderRepository;
     }
 
     public function index() {
         $title  = "Daftar Jenis Kelamin";
-        $gender = Gender::orderBy('name', 'ASC')->paginate(10);
+        $gender = $this->genderRepository->paginate(5);
 
         return view('master.gender.index', compact(['title', 'gender']));
     }
@@ -32,14 +37,14 @@ class GenderController extends Controller
     }
 
     public function store(GenderRequest $request) {
-        $gender = Gender::create($request->all());
+        $gender = $this->genderRepository->create($request);
 
         return redirect('master/gender')->with(['success' => 'Data berhasil ditambahkan!']);
     }
 
     public function edit($id) {
         $title  = "Ubah Data Jenis Kelamin";
-        $gender = Gender::findOrFail($id);
+        $gender = $this->genderRepository->findById($id);
 
         if($gender) {
             return view('master.gender.edit', compact(['title', 'gender']));
@@ -49,18 +54,16 @@ class GenderController extends Controller
         }
     }
 
-    public function update(GenderRequest $request, Gender $gender) {
-        $gender->update($request->all());
+    public function update(GenderRequest $request, $id) {
+        $gender = $this->genderRepository->update($request, $id);
 
         return redirect('master/gender')->with(['success' => 'Data berhasil diubah!']);
     }
 
     public function destroy($id) {
-        $gender = Gender::findOrFail($id);
+        $gender = $this->genderRepository->delete($id);
 
         if($gender) {
-            $gender->delete();
-
             return redirect('master/gender')->with(['success' => 'Data berhasil dihapus!']);
         }
         else {
